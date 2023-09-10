@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ThreadsController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
 
 
@@ -33,6 +34,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::resource('threads', ThreadsController::class)
     ->middleware(['auth', 'verified']);
+
+Route::post('/comments', [CommentsController::class, 'store'])->name('comments.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

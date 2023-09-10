@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="ホーム画面" />
 
     <AuthenticatedLayout>
         <div class="py-5">
@@ -24,11 +24,12 @@ const props = defineProps({
                             <div class="container px-5 py-10 mx-auto">
                                 <h2 class="sec-title">最新の記事</h2>
                                 <div class="-my-8 divide-y-2 divide-gray-100 py-3">
-                                    <article v-for="threads_title in threads_titles_new" :key="threads_title.id" class="thread_article pl-5 pt-5">
-                                        <a href="#">
-                                            <div class="thread_time">{{ get_diffTime(threads_title.updated_at) }}</div>
+                                    <article v-for="threads_title in threads_titles_new.data" :key="threads_title.id" class="thread_article pl-5 pt-5">
+                                        <Link :href="route('threads.show', {thread: threads_title.id})">
+                                            <div class="thread_time">{{ get_diffTime(threads_title.created_at) }}</div>
                                             <div class="thread_title pl-4">{{ threads_title.thread_name }}</div>
-                                        </a>
+                                            <div class="thread_viewcount">{{ threads_title.show_count }}views</div>
+                                        </Link>
                                     </article>
                                 </div>
                             </div>
@@ -37,11 +38,12 @@ const props = defineProps({
                             <div class="container px-5 py-10 mx-auto">
                                 <h2 class="sec-title">人気トップ</h2>
                                 <div class="-my-8 divide-y-2 divide-gray-100 py-3">
-                                    <article v-for="threads_title in threads_titles_popular" :key="threads_title.id" class="thread_article pl-5 pt-5">
-                                        <a href="#">
-                                            <div class="thread_time">{{ get_diffTime(threads_title.updated_at) }}</div>
+                                    <article v-for="threads_title in threads_titles_popular.data" :key="threads_title.id" class="thread_article pl-5 pt-5">
+                                        <Link :href="route('threads.show', {thread: threads_title.id})">
+                                            <div class="thread_time">{{ get_diffTime(threads_title.created_at) }}</div>
                                             <div class="thread_title pl-4">{{ threads_title.thread_name }}</div>
-                                        </a>
+                                            <div class="thread_viewcount">{{ threads_title.show_count }}views</div>
+                                        </Link>
                                     </article>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@ const props = defineProps({
         opacity: 0.7;
         background-color: rgb(230, 230, 230);
     }
-    .thread_time{
-
+    .thread_viewcount{
+        text-align: end;
     }
 </style>

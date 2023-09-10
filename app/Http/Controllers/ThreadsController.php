@@ -9,17 +9,24 @@ use App\Models\Comments;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $threads_titles = Threads::select('id', 'thread_name', 'user_id', 'status', 'updated_at')->get(); 
+        $threads_titles = Threads::searchThreads($request->search)
+            ->select('id', 'thread_name', 'user_id', 'status', 'show_count','created_at', 'updated_at')
+            ->where('status', true)
+            ->paginate(50)
+            ->withQueryString(); 
+        $search_word = $request->search;
         return Inertia::render('Threads/Index', [
-            'threads_titles' => $threads_titles
+            'threads_titles' => $threads_titles, 
+            'search_word' => $search_word
         ]);
     }
 
@@ -36,42 +43,43 @@ class ThreadsController extends Controller
      */
     public function store(StoreThreadsRequest $request)
     {
-        DB::beginTransaction();
         $user_id = Auth::id();
 
-        try{
-            Threads::create([
-                'thread_name' => $request->thread_name, 
-                'user_id' => $user_id, 
-                'user_name' => $request->user_name
-            ]);
+        $new_thread = Threads::create([
+            'thread_name' => $request->thread_name, 
+            'user_id' => $user_id, 
+        ]);
 
-            Comments::create([
-                'thread_id' => 1, 
-                'user_id' => $user_id, 
-                'comment' => $request->comment
-            ]);
-
-            DB::commit();
-    
-            return to_route('dashboard');
-        } catch(\Exception $e){
-            DB::rollback();
-        }
+        return to_route('threads.show', ['thread' => $new_thread->id]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Threads $threads)
+    public function show(Threads $thread)
     {
-        //
+        $thread->show_count = $thread->show_count + 1;
+        $thread->save();
+
+        DB::statement('set @row_num = 0;');
+        $thread_comments = Comments::where('thread_id', $thread->id)
+        ->orderBy('created_at', 'asc')
+        ->selectRaw('id, @row_num := @row_num + 1 as row_num, user_id, hash_id, user_name,  comment, created_at')
+        ->paginate(50)
+        ->withQueryString();
+
+
+        return Inertia::render('Threads/Show', [
+            'thread_id' => $thread->id, 
+            'thread_title' => $thread->thread_name, 
+            'thread_comments' => $thread_comments
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Threads $threads)
+    public function edit(Threads $thread)
     {
         //
     }
@@ -79,7 +87,7 @@ class ThreadsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateThreadsRequest $request, Threads $threads)
+    public function update(UpdateThreadsRequest $request, Threads $thread)
     {
         //
     }
@@ -87,7 +95,7 @@ class ThreadsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Threads $threads)
+    public function destroy(Threads $thread)
     {
         //
     }

@@ -23,7 +23,6 @@ class StoreCommentsRequest extends FormRequest
     {
         return [
             'thread_id' => ['required'], 
-            'user_id' => ['required'], 
             'comment' => ['required', 'max:128']
         ];
     }

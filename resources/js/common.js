@@ -51,4 +51,14 @@ const get_diffTime = (updated_time) => {
     return ret_st;
 }
 
+
 export { get_nowTime, get_diffTime }
+
+//時刻を整形
+const getDate_change_format = (date) => {
+    var date = new Date(date);
+    return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + ' ' 
+    + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+}
+
+export {getDate_change_format}

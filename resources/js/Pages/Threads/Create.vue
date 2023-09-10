@@ -10,8 +10,6 @@ const props = defineProps({
 
 const form = reactive({
     thread_name: null, 
-    comment: null, 
-    user_name: null
 })
 
 const storeThreads = () => {
@@ -21,7 +19,7 @@ const storeThreads = () => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="新規スレッド作成" />
 
     <AuthenticatedLayout>
         <div class="py-5">
@@ -30,7 +28,7 @@ const storeThreads = () => {
                     <div class="p-6 text-gray-900">
                         <div class="flex justify-between">
                             <h1 class="font-black pl-5 text-xm underline">新規スレッド作成</h1>
-                            <Link :href="route('dashboard')" class="text-red-500 underline hover:opacity-50">ホームへ戻る</Link>
+                            <Link :href="route('dashboard')" class="text-indigo-500 underline hover:opacity-50">ホームへ戻る</Link>
                         </div>
                         <section class="text-gray-600 py-10 body-font relative">
                             <div class="container flex flex-wrap mx-auto">
@@ -55,20 +53,6 @@ const storeThreads = () => {
                                                     <label for="title" class="leading-7 text-sm text-gray-600">スレッドタイトル</label>
                                                     <input type="text" id="title" name="title" v-model="form.thread_name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                     <InputError :message="errors.thread_name" />
-                                                </div>
-                                            </div>
-                                            <div class="p-2 w-full">
-                                                <div class="relative">
-                                                    <label for="name" class="leading-7 text-sm text-gray-600">名前(任意)</label>
-                                                    <input type="text" id="name" name="name" v-model="form.user_name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                    <InputError :message="errors.user_name" />
-                                                </div>
-                                            </div>
-                                            <div class="p-2 w-full">
-                                                <div class="relative">
-                                                    <label for="comment" class="leading-7 text-sm text-gray-600">本文</label>
-                                                    <textarea id="comment" name="comment" v-model="form.comment" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-                                                    <InputError :message="errors.comment" />
                                                 </div>
                                             </div>
                                             <div class="p-2 w-full">

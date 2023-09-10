@@ -21,7 +21,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            ThreadsSeeder::class, 
         ]);
+
+        \App\Models\User::factory(30)->create();
+        \App\Models\Threads::factory(100)->create();
+        \App\Models\Comments::factory(30000)->create();
+
     }
 }
