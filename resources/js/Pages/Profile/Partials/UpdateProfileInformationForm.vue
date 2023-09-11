@@ -18,6 +18,7 @@ const user = usePage().props.auth.user;
 
 const form = useForm({
     name: user.name,
+    hash_id: user.hash_id, 
     email: user.email,
 });
 </script>
@@ -50,6 +51,22 @@ const form = useForm({
             </div>
 
             <div>
+                <InputLabel for="name" value="ID" />
+
+                <TextInput
+                    id="hash_id"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.hash_id"
+                    required
+                    autofocus
+                    autocomplete="hash_id"
+                />
+
+                <InputError class="mt-2" :message="form.errors.hash_id" />
+            </div>
+
+            <div>
                 <InputLabel for="email" value="メールアドレス" />
 
                 <TextInput
@@ -66,14 +83,14 @@ const form = useForm({
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm mt-2 text-gray-800">
-                    Your email address is unverified.
+                    {{ $t('Your email address is unverified.') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        Click here to re-send the verification email.
+                        {{ $t('Click here to re-send the verification email.') }}
                     </Link>
                 </p>
 
@@ -81,7 +98,7 @@ const form = useForm({
                     v-show="status === 'verification-link-sent'"
                     class="mt-2 font-medium text-sm text-green-600"
                 >
-                    A new verification link has been sent to your email address.
+                    {{ $t('A new verification link has been sent to your email address.') }}
                 </div>
             </div>
 

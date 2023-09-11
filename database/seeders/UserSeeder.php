@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'test', 
+            'hash_id' => uniqid(rand()), 
             'email' => 'test@test.com', 
             'password' => Hash::make('password123'),
         ]);

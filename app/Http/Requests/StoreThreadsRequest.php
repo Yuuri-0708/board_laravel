@@ -23,7 +23,6 @@ class StoreThreadsRequest extends FormRequest
     {
         return [
             'thread_name' => ['required', 'max:128'], 
-            'user_name' => ['max: 16'], 
         ];
     }
 }

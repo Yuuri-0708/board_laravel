@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->text('thread_name');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
-            $table->string('user_name')->nullable();
             $table->integer('show_count')->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();

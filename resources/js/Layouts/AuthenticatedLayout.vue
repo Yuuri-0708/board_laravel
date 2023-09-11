@@ -79,6 +79,7 @@ const showingNavigationDropdown = ref(false);
                     <div class="flex items-center my-2">
                         <div class="ml-3 relative">
                             <NavLink :href="route('threads.create')" as="button">新規スレッド作成</NavLink>
+                            <NavLink :href="route('mypage')" as="button" class="ml-3">マイページ</NavLink>
                         </div>
                     </div>
                 </div>
