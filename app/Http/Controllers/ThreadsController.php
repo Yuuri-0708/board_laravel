@@ -50,7 +50,11 @@ class ThreadsController extends Controller
             'user_id' => $user_id, 
         ]);
 
-        return to_route('threads.show', ['thread' => $new_thread->id]);
+        return to_route('threads.show', ['thread' => $new_thread->id])
+        ->with([
+            'message' => 'スレッドを作成しました。', 
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -87,9 +91,12 @@ class ThreadsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateThreadsRequest $request, Threads $thread)
+    public function update(Threads $thread)
     {
-        //
+        $thread->status = !($thread->status);
+        $thread->save();
+
+        return to_route('mypage');
     }
 
     /**
@@ -97,6 +104,8 @@ class ThreadsController extends Controller
      */
     public function destroy(Threads $thread)
     {
-        //
+        $thread->delete();
+
+        return to_route('Mypage');
     }
 }

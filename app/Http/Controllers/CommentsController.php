@@ -24,7 +24,11 @@ class CommentsController extends Controller
             'comment' => $request->comment
         ]);
 
-        return to_route('threads.show', ['thread' => $request->thread_id]);
+        return to_route('threads.show', ['thread' => $request->thread_id])
+        ->with([
+            'message' => 'コメントを投稿しました。', 
+            'status' => 'success'
+        ]);
     }
 
     /**

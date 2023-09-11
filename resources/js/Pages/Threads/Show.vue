@@ -5,6 +5,7 @@ import { reactive } from 'vue';
 import { getDate_change_format } from '@/common';
 import Pagination from '@/Components/Pagination.vue';
 import InputError from '@/Components/InputError.vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
 import { onMounted } from 'vue';
 
 const props = defineProps({
@@ -36,6 +37,7 @@ const storeComment = () => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
+                        <FlashMessage />
                         <div class="flex justify-end pb-5">
                             <Link :href="route('dashboard')" class="text-indigo-500 underline hover:opacity-50">ホームへ戻る</Link>
                         </div>

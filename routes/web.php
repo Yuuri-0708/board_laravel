@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ThreadsController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MypageController;
 
 
 /*
@@ -31,6 +32,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/mypage', [MypageController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('mypage');
 
 Route::resource('threads', ThreadsController::class)
     ->middleware(['auth', 'verified']);
